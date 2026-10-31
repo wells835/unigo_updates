@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UniGo Deliveries | Order Food</title>
+<style>
+:root{--green:#08783e;--deep:#064d2b;--yellow:#ffd43b;--cream:#ffffff;--ink:#101810;--black:#101810}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--cream);color:var(--ink)}
+header{background:linear-gradient(120deg,var(--deep),var(--green));color:white;padding:16px 16px 22px;border-bottom:5px solid var(--yellow)}
+.wrap{max-width:1050px;margin:auto}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{font-size:1.5rem;font-weight:900;letter-spacing:-.5px}.brand span{color:var(--yellow)}.tag{font-size:.9rem;opacity:.9}
+.cartpill{background:var(--yellow);color:#172318;padding:10px 14px;border-radius:999px;font-weight:800}
+.hero{padding:22px 0 10px;max-width:100%}.hero-banner{display:block;width:100%;max-height:310px;object-fit:cover;object-position:center;border-radius:18px;border:2px solid var(--yellow);margin:18px 0 8px}.hero-copy{max-width:680px}.hero h1{font-size:clamp(2rem,6vw,3.4rem);line-height:1.02;margin:0 0 12px}.hero p{font-size:1.05rem;margin:0 0 16px}
+.button{border:0;background:var(--yellow);color:#172318;border-radius:12px;padding:12px 16px;font-weight:850;cursor:pointer;text-decoration:none;display:inline-block}
+main{padding:22px 16px 50px}.sectiontitle{display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap;margin:8px 0 16px}.sectiontitle h2{margin:0;font-size:1.5rem}.muted{color:#617064;font-size:.9rem}
+.layout{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(280px,1fr);gap:22px;align-items:start}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.card{background:white;border:1px solid #dce7dc;border-top:4px solid var(--green);border-radius:16px;overflow:hidden;box-shadow:0 5px 18px #173d1a12;display:flex;flex-direction:column}.cardbody{display:flex;flex-direction:column;flex:1}.cardbody .add{margin-top:auto}
+.foodart{height:130px;background:linear-gradient(135deg,#e8f4df,#fff2b8);display:grid;place-items:center;font-size:3.8rem;border-bottom:3px solid var(--yellow)}
+.cardbody{padding:14px}.card h3{margin:0 0 5px;font-size:1.05rem}.price{font-weight:900;color:var(--green);font-size:1.05rem;margin:8px 0 12px}
+.add{width:100%;border:0;background:var(--green);color:white;padding:10px;border-radius:10px;font-weight:800;cursor:pointer}.add:hover{background:var(--deep)}
+.panel{background:white;border:1px solid #e3e8df;border-radius:18px;padding:18px;box-shadow:0 5px 18px #173d1a0b;position:sticky;top:12px}.panel h2{margin:0 0 12px}.empty{color:#778078;padding:12px 0}
+.cartrow{display:flex;justify-content:space-between;gap:8px;padding:10px 0;border-bottom:1px solid #edf0eb}.cartrow small{display:block;color:#69736a}.qty{display:flex;align-items:center;gap:8px;white-space:nowrap}.qty button{width:26px;height:26px;border:1px solid #dce3d8;border-radius:7px;background:#f5f7f2;font-weight:900;cursor:pointer}
+.totals{padding-top:12px}.totalrow{display:flex;justify-content:space-between;margin:8px 0}.grand{font-size:1.15rem;font-weight:900;border-top:1px solid #e4e9e0;padding-top:12px}
+form{margin-top:18px}label{display:block;font-size:.88rem;font-weight:750;margin:12px 0 5px}input,select,textarea{width:100%;padding:11px 12px;border:1px solid #d6ded3;border-radius:10px;font:inherit;background:white}input:focus,select:focus,textarea:focus{outline:2px solid #a8d9b8;border-color:var(--green)}
+.whatsapp{width:100%;margin-top:10px;background:#128c4a;color:white;border:0;border-radius:12px;padding:13px;font-weight:900;cursor:pointer;font-size:1rem}.note{font-size:.8rem;color:#69736a;line-height:1.45;margin-top:10px}
+footer{background:#102b1a;color:#dce9de;padding:22px 16px;text-align:center}footer strong{color:var(--yellow)}
+@media(max-width:760px){.layout{grid-template-columns:1fr}.panel{position:static}.hero{padding-top:16px}.hero-banner{max-height:230px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.foodart{height:100px;font-size:3rem}.cardbody{padding:11px}}@media(max-width:390px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.foodart{height:88px}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+ <div class="top"><div><div class="brand">🛵 Uni<span>Go</span> Deliveries</div><div class="tag">Your campus. Your orders. Our delivery.</div></div><div class="cartpill">🛒 Cart: <span id="cartCount">0</span></div></div>
+ <div class="hero"><img class="hero-banner" src="unigo_hero_banner.jpg" alt="UniGo Deliveries rider and food delivery banner"><div class="hero-copy"><h1>Good food.<br><span style="color:var(--yellow)">Delivered to you.</span></h1><p>Browse what's available, add your favourites to the cart, and send your order directly to UniGo on WhatsApp.</p><a class="button" href="#menu">Browse food ↓</a></div></div>
+</div></header>
+<main class="wrap">
+ <div class="layout">
+  <section id="menu"><div class="sectiontitle"><h2>Today's menu 🍽️</h2><span class="muted">Prices in KSh · Availability may change</span></div>
+   <div class="grid" id="foodGrid"></div>
+   <p class="note">Menu availability and prices may change. Check with UniGo if an item is unavailable.</p>
+  </section>
+  <aside class="panel" id="checkout"><h2>🛒 Your order</h2><div id="cartItems" class="empty">Your cart is empty. Add something tasty!</div>
+   <div class="totals"><div class="totalrow"><span>Food subtotal</span><strong id="subtotal">KSh 0</strong></div>
+    <div class="totalrow"><span>Delivery fee</span><strong id="deliveryFee">Choose location</strong></div>
+    <div class="totalrow grand"><span>Total</span><strong id="grandTotal">KSh 0</strong></div>
+   </div>
+   <form id="orderForm">
+    <label for="customerName">Your name *</label><input id="customerName" required placeholder="Enter your name">
+    <label for="phone">Phone number *</label><input id="phone" type="tel" required placeholder="e.g. 07xx xxx xxx">
+    <label for="area">Where should we deliver? *</label><select id="area" required><option value="">Choose your area</option><option value="hostels">Hostel — KSh 10 delivery</option><option value="stage">Stage — KSh 10 delivery</option><option value="around">Around school — KSh 25 delivery</option></select>
+    <label for="location">Specific location / hostel / landmark *</label><input id="location" required placeholder="e.g. Hostel name, block, room or landmark">
+    <label for="instructions">Extra instructions (optional)</label><textarea id="instructions" rows="2" placeholder="Any delivery details?"></textarea>
+    <button class="whatsapp" type="submit">Send order on WhatsApp ↗</button>
+    <p class="note">Your order opens in WhatsApp for you to send. Please confirm the WhatsApp number in the website settings before sharing this page with customers.</p>
+   </form>
+  </aside>
+ </div>
+</main>
+<footer><strong>UniGo Deliveries</strong><br>Your campus. Your orders. Our delivery. 💚<br><small>Order → We pick up → We deliver</small></footer>
+<script>
+// IMPORTANT: Replace this with UniGo's WhatsApp number in international format, digits only.
+// Kenya example format: 2547XXXXXXXX (do not include + or spaces).
+const WHATSAPP_NUMBER = "254700452927";
+const products = [
+ {id:"pilau",name:"Pilau Plain",price:100,emoji:"🍛"},
+ {id:"chapo",name:"Chapati",price:15,emoji:"🫓"},
+ {id:"ndengu",name:"Ndengu",price:40,emoji:"🥘"},
+ {id:"fries100",name:"Fries — Small",price:100,emoji:"🍟"},
+ {id:"fries140",name:"Fries — Medium",price:140,emoji:"🍟"},
+ {id:"fries200",name:"Fries — Large",price:200,emoji:"🍟"},
+ {id:"samosa",name:"Samosa",price:10,emoji:"🥟"},
+ {id:"egg",name:"Boiled Egg",price:30,emoji:"🥚"},
+ {id:"smocha",name:"Smocha",price:50,emoji:"🌯"},
+ {id:"smokie",name:"Smokie",price:40,emoji:"🌭"},
+ {id:"smokiespecial",name:"Smokie Special",price:80,emoji:"🍳"},
+ {id:"mandazi",name:"Mandazi",price:5,emoji:"🥯"}
+];
+const fees={hostels:10,stage:10,around:25};
+const cart={};
+const money=n=>"KSh "+n.toLocaleString("en-KE");
+const grid=document.getElementById("foodGrid");
+products.forEach(p=>{const c=document.createElement("article");c.className="card";c.innerHTML=`<div class="foodart">${p.emoji}</div><div class="cardbody"><h3>${p.name}</h3><div class="muted">Freshly prepared · Subject to availability</div><div class="price">${money(p.price)}</div><button class="add" type="button">+ Add to cart</button></div>`;c.querySelector("button").addEventListener("click",()=>{cart[p.id]=(cart[p.id]||0)+1;renderCart();});grid.appendChild(c)});
+function renderCart(){const box=document.getElementById("cartItems");box.innerHTML="";let count=0,subtotal=0;Object.entries(cart).forEach(([id,q])=>{const p=products.find(x=>x.id===id);if(!p||q<1)return;count+=q;subtotal+=p.price*q;const row=document.createElement("div");row.className="cartrow";row.innerHTML=`<div><strong>${p.name}</strong><small>${money(p.price)} each</small></div><div class="qty"><button type="button" aria-label="Remove one">−</button><strong>${q}</strong><button type="button" aria-label="Add one">+</button></div>`;const bs=row.querySelectorAll("button");bs[0].onclick=()=>{cart[id]--;if(cart[id]<=0)delete cart[id];renderCart()};bs[1].onclick=()=>{cart[id]++;renderCart()};box.appendChild(row)});if(!count)box.innerHTML='<div class="empty">Your cart is empty. Add something tasty!</div>';document.getElementById("cartCount").textContent=count;document.getElementById("subtotal").textContent=money(subtotal);const area=document.getElementById("area").value;const fee=area?fees[area]:0;document.getElementById("deliveryFee").textContent=area?money(fee):"Choose location";document.getElementById("grandTotal").textContent=money(subtotal+fee)}
+document.getElementById("area").addEventListener("change",renderCart);
+document.getElementById("orderForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ const entries=Object.entries(cart).filter(([id,q])=>q>0);
+ if(!entries.length){alert("Please add at least one food item to your cart.");return}
+ const area=document.getElementById("area").value;
+ if(!area){alert("Please choose your delivery area.");return}
+ const name=document.getElementById("customerName").value.trim();
+ const phone=document.getElementById("phone").value.trim();
+ const loc=document.getElementById("location").value.trim();
+ const instructions=document.getElementById("instructions").value.trim();
+ const subtotal=entries.reduce((sum,[id,q])=>sum+products.find(p=>p.id===id).price*q,0);
+ const fee=fees[area];
+ const areaName={hostels:"Hostels",stage:"Stage",around:"Around school"}[area];
+ const orderRef="UG-"+Date.now().toString().slice(-7);
+ let msg=`🛵 *UNIGO DELIVERIES — NEW ORDER*\n━━━━━━━━━━━━━━━━━━\n\n*ORDER DETAILS*\n`;
+ msg+=entries.map(([id,q])=>{const p=products.find(p=>p.id===id);return `• ${q} x ${p.name} — ${money(p.price*q)}`}).join("\n");
+ msg+=`\n\n*DELIVERY DETAILS*\n📍 Delivery area: ${areaName}\n🏠 Specific location: ${loc}\n👤 Customer name: ${name}\n📞 Customer phone: ${phone}`;
+ msg+=`\n\n*PAYMENT SUMMARY*\nFood subtotal: ${money(subtotal)}\nDelivery fee: ${money(fee)}\n*TOTAL TO PAY: ${money(subtotal+fee)}*`;
+ if(instructions)msg+=`\n\n📝 *Extra instructions:* ${instructions}`;
+ msg+=`\n\nOrder reference: ${orderRef}\nIs this order available, and when can you deliver?\n\n🌐 *View menu / order again:*\nhttps://unigo-deliveries.netlify.app\n\n*Thank you for choosing UniGo Deliveries!* 💚💛`;
+ if(WHATSAPP_NUMBER==="REPLACE_WITH_YOUR_NUMBER"){alert("The website owner needs to set UniGo's WhatsApp number in the code before orders can open the correct chat.");return}
+ window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`,"_blank");
+});
+renderCart();
+</script>
+</body></html>
