@@ -6,45 +6,55 @@ CREATE TABLE IF NOT EXISTS admins (
   email VARCHAR(190) NOT NULL UNIQUE,
   password_hash VARCHAR(255) NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS menu_items (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
   price DECIMAL(10,2) NOT NULL,
-  emoji VARCHAR(16) DEFAULT '🍽️',
+  emoji VARCHAR(32) DEFAULT '🍽️',
   image_url VARCHAR(500) NULL,
+  category VARCHAR(80) NULL,
   available BOOLEAN NOT NULL DEFAULT TRUE,
   sort_order INT NOT NULL DEFAULT 0,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
-
--- Add starter menu entries. You can edit these from the Admin Dashboard.
-INSERT INTO menu_items(name,price,emoji,available,sort_order)
-SELECT 'Pilau Plain',100,'🍛',TRUE,1 WHERE NOT EXISTS(SELECT 1 FROM menu_items);
-INSERT INTO menu_items(name,price,emoji,available,sort_order)
-SELECT 'Chapati',15,'🫓',TRUE,2 WHERE (SELECT COUNT(*) FROM menu_items)=1;
-INSERT INTO menu_items(name,price,emoji,available,sort_order)
-SELECT 'Ndengu',40,'🥘',TRUE,3 WHERE (SELECT COUNT(*) FROM menu_items)=2;
-
+) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS orders (
- id INT AUTO_INCREMENT PRIMARY KEY,
- tracking_code VARCHAR(24) NOT NULL UNIQUE,
- customer_name VARCHAR(120) NOT NULL,
- phone VARCHAR(30) NOT NULL,
- area VARCHAR(80) NOT NULL,
- location VARCHAR(255) NOT NULL,
- instructions TEXT NULL,
- items_json JSON NOT NULL,
- subtotal DECIMAL(10,2) NOT NULL,
- delivery_fee DECIMAL(10,2) NOT NULL,
- total DECIMAL(10,2) NOT NULL,
- payment_method VARCHAR(40) NOT NULL DEFAULT 'Pay on Delivery',
- status VARCHAR(40) NOT NULL DEFAULT 'Received',
- feedback_rating VARCHAR(40) NULL,
- feedback_comment TEXT NULL,
- created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
- updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  tracking_code VARCHAR(20) NOT NULL UNIQUE,
+  customer_name VARCHAR(100) NOT NULL,
+  phone VARCHAR(30) NOT NULL,
+  area VARCHAR(100) NOT NULL,
+  location VARCHAR(250) NOT NULL,
+  instructions VARCHAR(500) NULL,
+  subtotal DECIMAL(10,2) NOT NULL,
+  delivery_fee DECIMAL(10,2) NOT NULL DEFAULT 10,
+  total DECIMAL(10,2) NOT NULL,
+  payment_method VARCHAR(40) NOT NULL DEFAULT 'Pay on Delivery',
+  status ENUM('Received','Confirmed','Preparing','Ready for pickup','Out for delivery','Delivered','Cancelled') NOT NULL DEFAULT 'Received',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX idx_orders_created (created_at),
+  INDEX idx_orders_status (status)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS order_items (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  order_id BIGINT NOT NULL,
+  item_name VARCHAR(120) NOT NULL,
+  unit_price DECIMAL(10,2) NOT NULL,
+  quantity INT NOT NULL,
+  line_total DECIMAL(10,2) NOT NULL,
+  CONSTRAINT fk_order_items_order FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS order_feedback (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  order_id BIGINT NOT NULL UNIQUE,
+  rating VARCHAR(40) NOT NULL,
+  comment VARCHAR(1000) NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_feedback_order FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE
+) ENGINE=InnoDB;

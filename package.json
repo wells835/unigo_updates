@@ -1,16 +1,11 @@
 {
-  "name": "unigo-deliveries-admin",
-  "version": "1.0.0",
+  "name": "unigo-deliveries-api",
+  "version": "2.0.0",
   "private": true,
-  "description": "UniGo Deliveries menu management backend and admin dashboard",
+  "description": "UniGo Deliveries orders, tracking, feedback and admin API",
   "main": "server.js",
-  "scripts": {
-    "start": "node server.js",
-    "create-admin": "node scripts/create-admin.js"
-  },
-  "engines": {
-    "node": ">=18"
-  },
+  "scripts": { "start": "node server.js", "create-admin": "node scripts/create-admin.js" },
+  "engines": { "node": ">=18" },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
