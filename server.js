@@ -23,11 +23,19 @@ fs.mkdirSync(uploadDir, { recursive: true });
 app.use(express.static(publicDir));
 
 const pool = mysql.createPool({
-  host: process.env.DB_HOST, port: Number(process.env.DB_PORT || 3306),
-  user: process.env.DB_USER, password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME, waitForConnections: true,
-  connectionLimit: 10, queueLimit: 0, decimalNumbers: true,
-  ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: true } : undefined
+  host: process.env.DB_HOST,
+  port: Number(process.env.DB_PORT || 3306),
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
+  decimalNumbers: true,
+  ssl: {
+    ca: fs.readFileSync(process.env.DB_CA_CERT),
+    rejectUnauthorized: true
+  }
 });
 const storage = multer.diskStorage({ destination: uploadDir, filename: (req, file, cb) => cb(null, `${Date.now()}-${crypto.randomBytes(5).toString('hex')}${path.extname(file.originalname).toLowerCase()}`) });
 const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 }, fileFilter: (req, file, cb) => cb(null, ['image/jpeg','image/png','image/webp'].includes(file.mimetype)) });
