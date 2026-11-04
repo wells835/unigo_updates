@@ -10,7 +10,8 @@
 <section class="view" id="track"><div class="panel" style="max-width:650px;margin:auto"><h2>📦 Track Your Order</h2><p class="note">Enter the tracking reference you received after placing your order.</p><form id="trackForm"><label>Tracking reference code</label><input id="trackingCode" required placeholder="e.g. UG-ABC12345"><button class="primary" style="width:100%;margin-top:12px" type="submit">Track Order</button></form><div id="trackingResult" aria-live="polite"></div></div></section>
 </main><footer><strong>UniGo Deliveries</strong><br>Order → We Pick Up → We Deliver. 🛵<br>💳 Payment: Pay on Delivery only · Till: 3192949<br><a href="https://chat.whatsapp.com/DadLoG1v1xW1k8Gm8MD6K1?s=cl&p=a&mlu=4&ilr=4&utm_source=chatgpt.com" target="_blank" rel="noopener">Join our WhatsApp group</a><br><small>unigo-deliveries002.netlify.app</small><br><a href="/admin">Admin login</a></footer>
 <script>
-const WHATSAPP_NUMBER="254700452927",API_BASE_URL=""; // Set API_BASE_URL to the deployed Node backend URL if hosted separately.
+const WHATSAPP_NUMBER="254700452927",
+API_BASE_URL="https://unigo-backend-pcum.onrender.com"; // Set API_BASE_URL to the deployed Node backend URL if hosted separately.
 const menu=[
 ['chapo','Chapo',15,'🫓','Breakfast'],['smokie-special','Smokie Special (Smokie + Egg + Tomatoes + Onions + Chutney)',80,'🌭🥚','Breakfast'],['bhajia-breakfast','Bhajia – 1/4',100,'🍟','Breakfast'],['smocha','Smocha',50,'🌯','Breakfast'],['boiled-egg','Boiled Egg (each)',30,'🥚','Breakfast'],
 ['rice-ndengu','Rice Ndengu',80,'🍚','Main Dishes'],['rice-beans','Rice Bean',90,'🍚🫘','Main Dishes'],['chapo-beef','Chapo & Beef',130,'🫓🥩','Main Dishes'],['rice-beef','Rice Beef',140,'🍚🥩','Main Dishes'],['githeri-plain','Githeri Plain',40,'🍲','Main Dishes'],['githeri-karanga','Githeri Karanga',50,'🥜','Main Dishes'],['beans-plain','Beans Plain',40,'🫘','Main Dishes'],['beans-karanga','Beans Karanga',50,'🫘🥜','Main Dishes'],
