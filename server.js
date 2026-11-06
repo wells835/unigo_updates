@@ -125,13 +125,48 @@ app.post('/api/orders/:tracking_code/feedback', async (req, res) => {
 
 app.post('/api/admin/login', async (req, res) => {
   try {
-    const email = cleanText(req.body?.email, 190).toLowerCase(); const password = String(req.body?.password || '');
-    if (!email || !password) return res.status(400).json({ error: 'Email and password are required.' });
-    const [rows] = await pool.query('SELECT id,email,password_hash FROM admins WHERE email=? LIMIT 1', [email]);
-    if (!rows.length || !await bcrypt.compare(password, rows[0].password_hash)) return res.status(401).json({ error: 'Incorrect email or password.' });
-    if (!JWT_SECRET) return res.status(500).json({ error: 'Server security configuration is incomplete.' });
-    res.json({ token: jwt.sign({ id: rows[0].id, email: rows[0].email }, JWT_SECRET, { expiresIn: '8h' }) });
-  } catch (e) { console.error(e); res.status(500).json({ error: 'Login failed. Check database setup.' }); }
+    const email = cleanText(req.body?.email, 190).toLowerCase();
+    const password = String(req.body?.password || '');
+
+    if (!email || !password) {
+      return res.status(400).json({
+        error: 'Email and password are required.'
+      });
+    }
+
+    const [rows] = await pool.query(
+      'SELECT id, email, password_hash FROM admins WHERE email=? LIMIT 1',
+      [email]
+    );
+
+    if (!rows.length || !await bcrypt.compare(password, rows[0].password_hash)) {
+      return res.status(401).json({
+        error: 'Incorrect email or password.'
+      });
+    }
+
+    if (!JWT_SECRET) {
+      return res.status(500).json({
+        error: 'Server security configuration is incomplete.'
+      });
+    }
+
+    res.json({
+      token: jwt.sign(
+        { id: rows[0].id, email: rows[0].email },
+        JWT_SECRET,
+        { expiresIn: '8h' }
+      )
+    });
+
+  } catch (e) {
+    console.error('ADMIN LOGIN ERROR:', e);
+
+    res.status(500).json({
+      error: 'Login failed. Check database setup.',
+      details: e.message
+    });
+  }
 });
 
 app.get('/api/admin/menu', auth, async (req, res) => {
